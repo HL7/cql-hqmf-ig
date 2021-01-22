@@ -1,0 +1,72 @@
+<QualityMeasureDocument>
+  <!-- This example document illustrates the basic structure of an eCQM document -->
+  <!-- Identifying Information for the eCQM -->
+    <!-- The document type, this is the reference to HQMF -->
+   <typeId extension="POQM_HD000001UV02" root="2.16.840.1.113883.1.3"/>
+   <!-- The specific template identifier, this is the reference to the CQL-Based HQMF IG and version -->
+   <templateId>
+      <item extension="2018-05-01" root="2.16.840.1.113883.10.20.28.1.2"/>
+   </templateId>
+   <!-- A version-specific identifier for the eCQM, this is a globally unique identifier for this specific version of this eCQM -->
+   <id root="40280382-610b-e7a4-0161-4e1b897b1718"/>
+   <!-- A code identifying the document as an HQMF eCQM -->
+   <code code="57024-2" codeSystem="2.16.840.1.113883.6.1">
+      <displayName value="Health Quality Measure Document"/>
+   </code>
+   <title value="Example Title"/>
+   <text value="Example text"/>
+   <statusCode code="COMPLETED"/>
+   <!-- A version-independent identifier for the eCQM, different versions of this eCQM will have this same setId -->
+   <setId root="20619ccd-4d5a-45ce-95dc-d1052d890dab"/>
+   <versionNumber value="0.0.001"/>
+   
+   <!-- Contributor/stewardship metadata -->
+   <author>..</author>
+   <custodian>..</custodian>
+   <verifier>..</verifier>
+   <participation>..</participation>
+   
+   <!-- Terminology Definitions, see the Terminology Example for a complete description -->
+   <definition>..</definition>
+   
+   <!-- Related Document (included libraries, composite components) -->
+   <relatedDocument>..</relatedDocument>
+
+   <!-- Control Variable, typically the measurement period -->
+   <controlVariable>..</controlVariable>
+   
+   <!-- Measure attributes, see the HQMF metadata section for complete descriptions -->
+   <subjectOf>..</subjectOf>
+
+  <!-- Data Criteria Components -->
+  <component>
+    <dataCriteriaSection>
+      <entry>...</entry>
+    </dataCriteriaSection>
+  </component>
+  
+  <!-- Population Criteria Components -->
+  <component>
+    <populationCriteriaSection>
+      <component>
+        <initialPopulationCriteria>...</initialPopulationCriteria>
+      </component>
+      <component>
+        <denominatorCriteria>...</denominatorCriteria>
+      </component>
+      <component>
+        <numeratorCriteria>...</numeratorCriteria>
+      </component>
+    </populationCriteriaSection>
+  </component>
+  
+  <!-- Measure Observation Section (used for continuous variable measures -->
+  <component>
+    <measureObservationSection>
+      <definition>
+        <measureObservationDefinition>..</measureObservationDefinition>
+      </definition>
+    </measureObservationSection>
+  </component>
+  
+</QualityMeasureDocument>

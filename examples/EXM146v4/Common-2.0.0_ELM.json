@@ -1,0 +1,96 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "Common",
+         "version" : "2.0.0"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "QDM",
+            "uri" : "urn:healthit-gov:qdm:v5_0_1_draft",
+            "version" : "5.0.2"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Patient",
+                  "templateId" : "Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Includes Or Starts During",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Includes",
+                  "operand" : [ {
+                     "path" : "prevalencePeriod",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Diagnosis",
+                        "type" : "OperandRef"
+                     }
+                  }, {
+                     "path" : "relevantPeriod",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  } ]
+               }, {
+                  "type" : "In",
+                  "operand" : [ {
+                     "type" : "Start",
+                     "operand" : {
+                        "path" : "prevalencePeriod",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Diagnosis",
+                           "type" : "OperandRef"
+                        }
+                     }
+                  }, {
+                     "path" : "relevantPeriod",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "Diagnosis",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:healthit-gov:qdm:v5_0_1_draft}Diagnosis",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }, {
+               "name" : "Encounter",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:healthit-gov:qdm:v5_0_1_draft}PositiveEncounterPerformed",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         } ]
+      }
+   }
+}
+

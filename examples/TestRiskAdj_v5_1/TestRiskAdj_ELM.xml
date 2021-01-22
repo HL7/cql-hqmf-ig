@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fhir="http://hl7.org/fhir" xmlns:a="urn:hl7-org:cql-annotations:r1">
+   <identifier id="TestRiskAdj" version="0.0.001"/>
+   <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
+   <usings>
+      <def localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
+      <def localIdentifier="QDM" uri="urn:healthit-gov:qdm:v5_0_1_draft" version="5.0.2"/>
+   </usings>
+   <parameters>
+      <def name="Measurement Period" accessLevel="Public">
+         <parameterTypeSpecifier xsi:type="IntervalTypeSpecifier">
+            <pointType name="t:DateTime" xsi:type="NamedTypeSpecifier"/>
+         </parameterTypeSpecifier>
+      </def>
+   </parameters>
+   <valueSets>
+      <def name="Bilirubin" id="urn:oid:2.16.840.1.113883.3.666.5.2400" accessLevel="Public"/>
+      <def name="Race" id="urn:oid:2.16.840.1.114222.4.11.836" accessLevel="Public"/>
+      <def name="ONC Administrative Sex" id="urn:oid:2.16.840.1.113762.1.4.1" accessLevel="Public"/>
+      <def name="Serum Albumin" id="urn:oid:2.16.840.1.113762.1.4.1029.60" accessLevel="Public"/>
+      <def name="Ethnicity" id="urn:oid:2.16.840.1.114222.4.11.837" accessLevel="Public"/>
+      <def name="Cirrhosis or other liver disease" id="urn:oid:2.16.840.1.113762.1.4.1029.63" accessLevel="Public"/>
+      <def name="Encounter Inpatient" id="urn:oid:2.16.840.1.113883.3.666.5.307" accessLevel="Public"/>
+      <def name="Payer" id="urn:oid:2.16.840.1.114222.4.11.3591" accessLevel="Public"/>
+      <def name="CABG_Open and Endoscopic" id="urn:oid:2.16.840.1.113762.1.4.1029.39" accessLevel="Public"/>
+   </valueSets>
+   <statements>
+      <def name="Patient" context="Patient">
+         <expression xsi:type="SingletonFrom">
+            <operand xmlns:ns0="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns0:Patient" templateId="Patient" xsi:type="Retrieve"/>
+         </expression>
+      </def>
+      <def name="SDE Ethnicity" context="Patient" accessLevel="Public">
+         <expression xmlns:ns1="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns1:PatientCharacteristicEthnicity" xsi:type="Retrieve">
+            <codes name="Ethnicity" xsi:type="ValueSetRef"/>
+         </expression>
+      </def>
+      <def name="SDE Payer" context="Patient" accessLevel="Public">
+         <expression xmlns:ns2="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns2:PatientCharacteristicPayer" xsi:type="Retrieve">
+            <codes name="Payer" xsi:type="ValueSetRef"/>
+         </expression>
+      </def>
+      <def name="SDE Race" context="Patient" accessLevel="Public">
+         <expression xmlns:ns3="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns3:PatientCharacteristicRace" xsi:type="Retrieve">
+            <codes name="Race" xsi:type="ValueSetRef"/>
+         </expression>
+      </def>
+      <def name="SDE Sex" context="Patient" accessLevel="Public">
+         <expression xmlns:ns4="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns4:PatientCharacteristicSex" xsi:type="Retrieve">
+            <codes name="ONC Administrative Sex" xsi:type="ValueSetRef"/>
+         </expression>
+      </def>
+      <def name="Encounter Inpatient 365" context="Patient" accessLevel="Public">
+         <expression xsi:type="Query">
+            <source alias="E">
+               <expression xmlns:ns5="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns5:EncounterPerformed" templateId="PositiveEncounterPerformed" codeProperty="code" xsi:type="Retrieve">
+                  <codes name="Encounter Inpatient" xsi:type="ValueSetRef"/>
+               </expression>
+            </source>
+            <where xsi:type="And">
+               <operand xsi:type="LessOrEqual">
+                  <operand path="lengthOfStay" scope="E" xsi:type="Property"/>
+                  <operand value="365" unit="days" xsi:type="Quantity"/>
+               </operand>
+               <operand xsi:type="In">
+                  <operand xsi:type="End">
+                     <operand path="relevantPeriod" scope="E" xsi:type="Property"/>
+                  </operand>
+                  <operand name="Measurement Period" xsi:type="ParameterRef"/>
+               </operand>
+            </where>
+         </expression>
+      </def>
+      <def name="CABG_Open and Endoscopic During Encounter" context="Patient" accessLevel="Public">
+         <expression xsi:type="Query">
+            <source alias="P">
+               <expression xmlns:ns6="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns6:ProcedurePerformed" templateId="PositiveProcedurePerformed" codeProperty="code" xsi:type="Retrieve">
+                  <codes name="CABG_Open and Endoscopic" xsi:type="ValueSetRef"/>
+               </expression>
+            </source>
+            <relationship alias="E" xsi:type="With">
+               <expression name="Encounter Inpatient 365" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="In">
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="P" xsi:type="Property"/>
+                  </operand>
+                  <operand path="relevantPeriod" scope="E" xsi:type="Property"/>
+               </suchThat>
+            </relationship>
+         </expression>
+      </def>
+      <def name="Cirrhosis Dx" context="Patient" accessLevel="Public">
+         <expression xsi:type="Query">
+            <source alias="D">
+               <expression xmlns:ns7="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns7:Diagnosis" xsi:type="Retrieve">
+                  <codes name="Cirrhosis or other liver disease" xsi:type="ValueSetRef"/>
+               </expression>
+            </source>
+            <relationship alias="C" xsi:type="With">
+               <expression name="CABG_Open and Endoscopic During Encounter" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="Before">
+                  <operand xsi:type="Start">
+                     <operand path="prevalencePeriod" scope="D" xsi:type="Property"/>
+                  </operand>
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="C" xsi:type="Property"/>
+                  </operand>
+               </suchThat>
+            </relationship>
+         </expression>
+      </def>
+      <def name="Bilirubin Test" context="Patient" accessLevel="Public">
+         <expression xsi:type="Query">
+            <source alias="L">
+               <expression xmlns:ns8="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns8:LaboratoryTestPerformed" templateId="PositiveLaboratoryTestPerformed" codeProperty="code" xsi:type="Retrieve">
+                  <codes name="Bilirubin" xsi:type="ValueSetRef"/>
+               </expression>
+            </source>
+            <relationship alias="C" xsi:type="With">
+               <expression name="CABG_Open and Endoscopic During Encounter" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="Before">
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="L" xsi:type="Property"/>
+                  </operand>
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="C" xsi:type="Property"/>
+                  </operand>
+               </suchThat>
+            </relationship>
+            <relationship alias="E" xsi:type="With">
+               <expression name="Encounter Inpatient 365" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="In">
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="L" xsi:type="Property"/>
+                  </operand>
+                  <operand path="relevantPeriod" scope="E" xsi:type="Property"/>
+               </suchThat>
+            </relationship>
+            <where xsi:type="Greater">
+               <operand strict="false" xsi:type="As">
+                  <operand path="result" scope="L" xsi:type="Property"/>
+                  <asTypeSpecifier name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+               </operand>
+               <operand value="2" unit="mg/dL" xsi:type="Quantity"/>
+            </where>
+         </expression>
+      </def>
+      <def name="Serum Albumin Test" context="Patient" accessLevel="Public">
+         <expression xsi:type="Query">
+            <source alias="L">
+               <expression xmlns:ns9="urn:healthit-gov:qdm:v5_0_1_draft" dataType="ns9:LaboratoryTestPerformed" templateId="PositiveLaboratoryTestPerformed" codeProperty="code" xsi:type="Retrieve">
+                  <codes name="Serum Albumin" xsi:type="ValueSetRef"/>
+               </expression>
+            </source>
+            <relationship alias="C" xsi:type="With">
+               <expression name="CABG_Open and Endoscopic During Encounter" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="Before">
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="L" xsi:type="Property"/>
+                  </operand>
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="C" xsi:type="Property"/>
+                  </operand>
+               </suchThat>
+            </relationship>
+            <relationship alias="E" xsi:type="With">
+               <expression name="Encounter Inpatient 365" xsi:type="ExpressionRef"/>
+               <suchThat xsi:type="In">
+                  <operand xsi:type="Start">
+                     <operand path="relevantPeriod" scope="L" xsi:type="Property"/>
+                  </operand>
+                  <operand path="relevantPeriod" scope="E" xsi:type="Property"/>
+               </suchThat>
+            </relationship>
+            <where xsi:type="Less">
+               <operand strict="false" xsi:type="As">
+                  <operand path="result" scope="L" xsi:type="Property"/>
+                  <asTypeSpecifier name="t:Quantity" xsi:type="NamedTypeSpecifier"/>
+               </operand>
+               <operand value="3.5" unit="g/dL" xsi:type="Quantity"/>
+            </where>
+         </expression>
+      </def>
+      <def name="Hepatic Failure" context="Patient" accessLevel="Public">
+         <expression xsi:type="And">
+            <operand xsi:type="And">
+               <operand xsi:type="Exists">
+                  <operand name="Cirrhosis Dx" xsi:type="ExpressionRef"/>
+               </operand>
+               <operand xsi:type="Exists">
+                  <operand name="Bilirubin Test" xsi:type="ExpressionRef"/>
+               </operand>
+            </operand>
+            <operand xsi:type="Exists">
+               <operand name="Serum Albumin Test" xsi:type="ExpressionRef"/>
+            </operand>
+         </expression>
+      </def>
+      <def name="Initial Population" context="Patient" accessLevel="Public">
+         <expression name="Encounter Inpatient 365" xsi:type="ExpressionRef"/>
+      </def>
+      <def name="Denominator" context="Patient" accessLevel="Public">
+         <expression name="Initial Population" xsi:type="ExpressionRef"/>
+      </def>
+      <def name="Numerator" context="Patient" accessLevel="Public">
+         <expression name="CABG_Open and Endoscopic During Encounter" xsi:type="ExpressionRef"/>
+      </def>
+   </statements>
+</library>

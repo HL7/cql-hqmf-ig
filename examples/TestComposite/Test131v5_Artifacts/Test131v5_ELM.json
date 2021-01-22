@@ -1,0 +1,449 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "Test131v5",
+         "version" : "0.0.001"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "QDM",
+            "uri" : "urn:healthit-gov:qdm:v5_0_1_draft",
+            "version" : "5.0.2"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "parameterTypeSpecifier" : {
+               "type" : "IntervalTypeSpecifier",
+               "pointType" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Face-to-Face Interaction",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1048",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1025",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1023",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Negative Finding",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.195.12.1002",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Race",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.836",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Office Visit",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "ONC Administrative Sex",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Retinal or Dilated Eye Exam",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.115.12.1088",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Ethnicity",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.837",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Annual Wellness Visit",
+            "id" : "urn:oid:2.16.840.1.113883.3.526.3.1240",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Payer",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.3591",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Home Healthcare Services",
+            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1016",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Ophthalmological Services",
+            "id" : "urn:oid:2.16.840.1.113883.3.526.3.1285",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Patient",
+                  "templateId" : "Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "SDE Ethnicity",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicEthnicity",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Ethnicity",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Payer",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicPayer",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Payer",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Race",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicRace",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Race",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Sex",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicSex",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "ONC Administrative Sex",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "Diabetes Diagnosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Dx",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Diagnosis",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Overlaps",
+                  "operand" : [ {
+                     "path" : "prevalencePeriod",
+                     "scope" : "Dx",
+                     "type" : "Property"
+                  }, {
+                     "name" : "Measurement Period",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Valid Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "type" : "Distinct",
+                     "operand" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                                          "templateId" : "PositiveEncounterPerformed",
+                                          "codeProperty" : "code",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Office Visit",
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                                          "templateId" : "PositiveEncounterPerformed",
+                                          "codeProperty" : "code",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Face-to-Face Interaction",
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    }, {
+                                       "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                                       "templateId" : "PositiveEncounterPerformed",
+                                       "codeProperty" : "code",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
+                                          "type" : "ValueSetRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                                    "templateId" : "PositiveEncounterPerformed",
+                                    "codeProperty" : "code",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                                 "templateId" : "PositiveEncounterPerformed",
+                                 "codeProperty" : "code",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Home Healthcare Services",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }, {
+                              "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                              "templateId" : "PositiveEncounterPerformed",
+                              "codeProperty" : "code",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Annual Wellness Visit",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }, {
+                           "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                           "templateId" : "PositiveEncounterPerformed",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Ophthalmological Services",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "path" : "relevantPeriod",
+                     "scope" : "E",
+                     "type" : "Property"
+                  }, {
+                     "name" : "Measurement Period",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Diabetes Diagnosis",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "In",
+                     "operand" : [ {
+                        "precision" : "Year",
+                        "type" : "CalculateAgeAt",
+                        "operand" : [ {
+                           "path" : "birthDatetime",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }, {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           }
+                        } ]
+                     }, {
+                        "lowClosed" : true,
+                        "highClosed" : false,
+                        "type" : "Interval",
+                        "low" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "18",
+                           "type" : "Literal"
+                        },
+                        "high" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "75",
+                           "type" : "Literal"
+                        }
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Valid Encounter",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Initial Population",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Ex",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PhysicalExamPerformed",
+                     "templateId" : "PositivePhysicalExamPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Retinal or Dilated Eye Exam",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "result",
+                              "scope" : "Ex",
+                              "type" : "Property"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}Code",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        },
+                        "valueset" : {
+                           "name" : "Negative Finding"
+                        }
+                     }, {
+                        "type" : "In",
+                        "operand" : [ {
+                           "precision" : "Month",
+                           "type" : "DurationBetween",
+                           "operand" : [ {
+                              "type" : "End",
+                              "operand" : {
+                                 "path" : "relevantPeriod",
+                                 "scope" : "Ex",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "type" : "Start",
+                              "operand" : {
+                                 "name" : "Measurement Period",
+                                 "type" : "ParameterRef"
+                              }
+                           } ]
+                        }, {
+                           "lowClosed" : false,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "0",
+                              "type" : "Literal"
+                           },
+                           "high" : {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "12",
+                              "type" : "Literal"
+                           }
+                        } ]
+                     } ]
+                  }, {
+                     "type" : "IncludedIn",
+                     "operand" : [ {
+                        "path" : "relevantPeriod",
+                        "scope" : "Ex",
+                        "type" : "Property"
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  } ]
+               }
+            }
+         } ]
+      }
+   }
+}
+

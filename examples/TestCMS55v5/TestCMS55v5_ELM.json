@@ -1,0 +1,525 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "EXM55",
+         "version" : "5.0.0"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "QDM",
+            "uri" : "urn:healthit-gov:qdm:v5_0_1_draft",
+            "version" : "5.0.2"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2014",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2015",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Encounter Inpatient",
+            "id" : "urn:oid:2.16.840.1.113883.3.666.5.307",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Emergency Department Visit",
+            "id" : "urn:oid:2.16.840.1.113883.3.117.1.7.1.293",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Hospital Settings",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1111.126",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Psychiatric/Mental Health Patient",
+            "id" : "urn:oid:2.16.840.1.113883.3.117.1.7.1.299",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Ethnicity",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.837",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Payer",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.3591",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Race",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.836",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "ONC Administrative Sex",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Patient",
+                  "templateId" : "Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Inpatient Encounters",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Encounter",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                     "templateId" : "PositiveEncounterPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Encounter Inpatient",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "LessOrEqual",
+                     "operand" : [ {
+                        "path" : "lengthOfStay",
+                        "scope" : "Encounter",
+                        "type" : "Property"
+                     }, {
+                        "value" : 120,
+                        "unit" : "days",
+                        "type" : "Quantity"
+                     } ]
+                  }, {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "End",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "Encounter",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Emergency Department Encounters",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "EmergencyEncounter",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                     "templateId" : "PositiveEncounterPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Emergency Department Visit",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "InpatientEncounter",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Inpatient Encounters",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "precision" : "Hour",
+                        "type" : "DurationBetween",
+                        "operand" : [ {
+                           "type" : "End",
+                           "operand" : {
+                              "path" : "relevantPeriod",
+                              "scope" : "EmergencyEncounter",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "type" : "Start",
+                           "operand" : {
+                              "path" : "relevantPeriod",
+                              "scope" : "InpatientEncounter",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }, {
+                        "lowClosed" : false,
+                        "highClosed" : true,
+                        "type" : "Interval",
+                        "low" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "0",
+                           "type" : "Literal"
+                        },
+                        "high" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "1",
+                           "type" : "Literal"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Measure Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Emergency Department Encounters",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Measure Population Exclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Encounter",
+                  "expression" : {
+                     "name" : "Emergency Department Encounters",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "path" : "admissionSource",
+                     "scope" : "Encounter",
+                     "type" : "Property"
+                  },
+                  "valueset" : {
+                     "name" : "Hospital Settings"
+                  }
+               }
+            }
+         }, {
+            "name" : "ED Stay Time",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "precision" : "Minute",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "type" : "Start",
+                  "operand" : {
+                     "path" : "locationPeriod",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  }
+               }, {
+                  "type" : "End",
+                  "operand" : {
+                     "path" : "locationPeriod",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  }
+               } ]
+            },
+            "operand" : [ {
+               "name" : "Encounter",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:healthit-gov:qdm:v5_0_1_draft}PositiveEncounterPerformed",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Stratification 1",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Encounter",
+                  "expression" : {
+                     "name" : "Emergency Department Encounters",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Not",
+                  "operand" : {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "path" : "principalDiagnosis",
+                        "scope" : "Encounter",
+                        "type" : "Property"
+                     },
+                     "valueset" : {
+                        "name" : "Psychiatric/Mental Health Patient"
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "Stratification 2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Encounter",
+                  "expression" : {
+                     "name" : "Emergency Department Encounters",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "path" : "principalDiagnosis",
+                     "scope" : "Encounter",
+                     "type" : "Property"
+                  },
+                  "valueset" : {
+                     "name" : "Psychiatric/Mental Health Patient"
+                  }
+               }
+            }
+         }, {
+            "name" : "Stratification 3",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Encounter",
+                  "expression" : {
+                     "name" : "Emergency Department Encounters",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IsNull",
+                  "operand" : {
+                     "path" : "principalDiagnosis",
+                     "scope" : "Encounter",
+                     "type" : "Property"
+                  }
+               }
+            }
+         }, {
+            "name" : "SDE Ethnicity",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Characteristic",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicEthnicity",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Ethnicity",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "path" : "code",
+                     "scope" : "Characteristic",
+                     "type" : "Property"
+                  }
+               }
+            }
+         }, {
+            "name" : "SDE Payer",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Characteristic",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicPayer",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Payer",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "path" : "code",
+                     "scope" : "Characteristic",
+                     "type" : "Property"
+                  }
+               }
+            }
+         }, {
+            "name" : "SDE Race",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Characteristic",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicRace",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Race",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "path" : "code",
+                     "scope" : "Characteristic",
+                     "type" : "Property"
+                  }
+               }
+            }
+         }, {
+            "name" : "SDE Sex",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Characteristic",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicSex",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "ONC Administrative Sex",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "path" : "code",
+                     "scope" : "Characteristic",
+                     "type" : "Property"
+                  }
+               }
+            }
+         } ]
+      }
+   }
+}
+

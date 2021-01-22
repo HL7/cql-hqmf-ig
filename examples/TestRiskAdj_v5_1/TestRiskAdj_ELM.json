@@ -1,0 +1,502 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "TestRiskAdj",
+         "version" : "0.0.001"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "QDM",
+            "uri" : "urn:healthit-gov:qdm:v5_0_1_draft",
+            "version" : "5.0.2"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "parameterTypeSpecifier" : {
+               "type" : "IntervalTypeSpecifier",
+               "pointType" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Bilirubin",
+            "id" : "urn:oid:2.16.840.1.113883.3.666.5.2400",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Race",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.836",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "ONC Administrative Sex",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Serum Albumin",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1029.60",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Ethnicity",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.837",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cirrhosis or other liver disease",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1029.63",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Encounter Inpatient",
+            "id" : "urn:oid:2.16.840.1.113883.3.666.5.307",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Payer",
+            "id" : "urn:oid:2.16.840.1.114222.4.11.3591",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "CABG_Open and Endoscopic",
+            "id" : "urn:oid:2.16.840.1.113762.1.4.1029.39",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Patient",
+                  "templateId" : "Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "SDE Ethnicity",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicEthnicity",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Ethnicity",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Payer",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicPayer",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Payer",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Race",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicRace",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Race",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "SDE Sex",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}PatientCharacteristicSex",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "ONC Administrative Sex",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "Encounter Inpatient 365",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+                     "templateId" : "PositiveEncounterPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Encounter Inpatient",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "LessOrEqual",
+                     "operand" : [ {
+                        "path" : "lengthOfStay",
+                        "scope" : "E",
+                        "type" : "Property"
+                     }, {
+                        "value" : 365,
+                        "unit" : "days",
+                        "type" : "Quantity"
+                     } ]
+                  }, {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "End",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "E",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "CABG_Open and Endoscopic During Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}ProcedurePerformed",
+                     "templateId" : "PositiveProcedurePerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "CABG_Open and Endoscopic",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "E",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Encounter Inpatient 365",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "P",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "path" : "relevantPeriod",
+                        "scope" : "E",
+                        "type" : "Property"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Cirrhosis Dx",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}Diagnosis",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Cirrhosis or other liver disease",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "CABG_Open and Endoscopic During Encounter",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "Before",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "prevalencePeriod",
+                           "scope" : "D",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "C",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Bilirubin Test",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "L",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}LaboratoryTestPerformed",
+                     "templateId" : "PositiveLaboratoryTestPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Bilirubin",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "CABG_Open and Endoscopic During Encounter",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "Before",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "L",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "C",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }, {
+                  "alias" : "E",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Encounter Inpatient 365",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "L",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "path" : "relevantPeriod",
+                        "scope" : "E",
+                        "type" : "Property"
+                     } ]
+                  }
+               } ],
+               "where" : {
+                  "type" : "Greater",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "result",
+                        "scope" : "L",
+                        "type" : "Property"
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }, {
+                     "value" : 2,
+                     "unit" : "mg/dL",
+                     "type" : "Quantity"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Serum Albumin Test",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "L",
+                  "expression" : {
+                     "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}LaboratoryTestPerformed",
+                     "templateId" : "PositiveLaboratoryTestPerformed",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Serum Albumin",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "CABG_Open and Endoscopic During Encounter",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "Before",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "L",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "C",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }, {
+                  "alias" : "E",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Encounter Inpatient 365",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "path" : "relevantPeriod",
+                           "scope" : "L",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "path" : "relevantPeriod",
+                        "scope" : "E",
+                        "type" : "Property"
+                     } ]
+                  }
+               } ],
+               "where" : {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "result",
+                        "scope" : "L",
+                        "type" : "Property"
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }, {
+                     "value" : 3.5,
+                     "unit" : "g/dL",
+                     "type" : "Quantity"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Hepatic Failure",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Cirrhosis Dx",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Bilirubin Test",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Serum Albumin Test",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Encounter Inpatient 365",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Initial Population",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "CABG_Open and Endoscopic During Encounter",
+               "type" : "ExpressionRef"
+            }
+         } ]
+      }
+   }
+}
+

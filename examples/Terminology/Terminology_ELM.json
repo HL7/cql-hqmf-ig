@@ -1,0 +1,92 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "TerminologySectionExample"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "QDM",
+            "uri" : "urn:healthit-gov:qdm:v5_0_1_draft",
+            "version" : "5.0.2"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "parameterTypeSpecifier" : {
+               "type" : "IntervalTypeSpecifier",
+               "pointType" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "SNOMED-CT",
+            "id" : "urn:oid:2.16.840.1.113883.6.96",
+            "version" : "urn:hl7:version:201609",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Encounter Inpatient SNOMEDCT Value Set",
+            "id" : "urn:oid:2.16.840.1.113883.3.666.7.307",
+            "version" : "urn:hl7:version:20160929",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "Venous foot pump, device (physical object)",
+            "id" : "442023007",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Inpatient Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}EncounterPerformed",
+               "templateId" : "PositiveEncounterPerformed",
+               "codeProperty" : "code",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Encounter Inpatient SNOMEDCT Value Set",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "Venous Foot Pumps Applied",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{urn:healthit-gov:qdm:v5_0_1_draft}DeviceApplied",
+               "templateId" : "PositiveDeviceApplied",
+               "codeProperty" : "code",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Venous foot pump, device (physical object)",
+                  "type" : "CodeRef"
+               }
+            }
+         } ]
+      }
+   }
+}
+
