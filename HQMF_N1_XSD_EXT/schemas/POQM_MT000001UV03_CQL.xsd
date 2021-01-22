@@ -202,6 +202,7 @@ StaticMifToXsd.xsl version 2.0</xs:documentation>
 				</xs:choice>
 				<xs:element name="stratifierCriteria" type="POQM_MT000001UV03.StratifierCriteria" nillable="true" minOccurs="1" maxOccurs="1"/>
 				<xs:element ref="cql:supplementalDataElement" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="cql:measureValue" minOccurs="1" maxOccurs="1"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attributeGroup ref="InfrastructureRootAttributes"/>
