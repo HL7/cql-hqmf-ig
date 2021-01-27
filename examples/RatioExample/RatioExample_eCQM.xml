@@ -311,11 +311,11 @@
                </precondition>
             </measurePopulationExclusionCriteria>
          </component>
-         <!-- Use the measureValue extension to specify target units for the measure score -->
+         <!-- Use the scoreUnit extension to specify target units for the measure score -->
          <component typeCode="COMP">
-            <cql-ext:measureValue nullFlavor="DER" xsi:type="PQ">
-               <unit value="/1000d"/>
-            </cql-ext:measureValue>
+            <cql-ext:scoreUnit nullFlavor="DER" xsi:type="PQ">
+               <unit value="/1000.d"/>
+            </cql-ext:scoreUnit>
          </component>
       </populationCriteriaSection>
    </component>
@@ -345,7 +345,7 @@
                   <criteriaReference classCode="OBS" moodCode="EVN">
                     <!-- Points to the extension and root, rather than the name to ensure unique identification of the criteria -->
                     <id extension="denominator" root="0276D90F-87A1-44CA-86CC-4A35DD1D708A"/>
-				  </criteriaReference>
+				      </criteriaReference>
                </component>
             </measureObservationDefinition>
          </definition>
@@ -366,7 +366,7 @@
                   <criteriaReference classCode="OBS" moodCode="EVN">
                     <!-- Points to the extension and root, rather than the name to ensure unique identification of the criteria -->
                     <id extension="numerator" root="20C5657D-B0AD-4C15-A8A0-5D4E2BCB38F7"/>
-				  </criteriaReference>
+				      </criteriaReference>
                </component>
             </measureObservationDefinition>
          </definition>

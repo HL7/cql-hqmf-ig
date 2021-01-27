@@ -3,6 +3,6 @@
 	<xs:import namespace="urn:hl7-org:v3" schemaLocation="POQM_MT000001UV03_CQL.xsd"/>
 	<xs:element name="code" type="hl7:CD" nillable="true"/>
 	<xs:element name="version" type="hl7:ST" nillable="true"/>
-	<xs:element name="value" type="hl7:QTY" nillable="true"/>
+	<xs:element name="scoreUnit" type="hl7:QTY" nillable="true"/>
 	<xs:element name="supplementalDataElement" type="hl7:POQM_MT000001UV03.StratifierCriteria" nillable="true"/>
 </xs:schema>

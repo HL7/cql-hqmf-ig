@@ -45,10 +45,13 @@ To allow the measure to express the "rate per 1000" requirement, we are proposin
 to the CQL-based HQMF IG:
 
     <component typeCode="COMP">
-        <cql-ext:measureValue nullFlavor="DER" xsi:type="PQ">
-            <unit value="/1000d"/>
-        </cql-ext:measureValue>
+        <cql-ext:scoreUnit nullFlavor="DER" xsi:type="PQ">
+            <unit value="/1000.d"/>
+        </cql-ext:scoreUnit>
     </component>
+
+NOTE that in the Human Readable, propose to put this in a note at the beginning of each population group:
+Scoring Unit: /1000.d (per 1000 patient days)
 
 Logged this as an STU comment: http://www.hl7.org/dstucomments/showdetail_comment.cfm?commentid=2110
 */
